@@ -1,41 +1,34 @@
 class Solution {
-    public static boolean is_possible(int[] arr, int max_allocate,int no_painters){
-        int required_painters=1;
-        int job=0;
+    public static int possible (int[] arr,int max_units_per_person){
+        int units_load=0,req_person=1;
         for(int i:arr){
-            if(job+i <= max_allocate){
-                
-                job+=i;
+            if(units_load+i <= max_units_per_person){
+                units_load+=i;
             }
-            else{
-               required_painters++;
-               job=i;
+            else {
+                units_load=i;
+                req_person++;
             }
+            
         }
-        if(required_painters <= no_painters) return true;
-        else return false;
+        return req_person;
+
     }
-    
-    public int minTime(int[] arr, int k) {
-        int low=Integer.MIN_VALUE;
-        int high=0;
-        for(int i: arr){
-            low=Math.max(low,i);
+    public int splitArray(int[] nums, int k) {
+        int low=Integer.MIN_VALUE,high=0;
+        for(int i:nums){
             high+=i;
+            low=Math.max(low,i);
+
         }
-        if(k==1) return high;
-        while(low< high){
+        while(low<high){
             int mid=low+((high-low)/2);
-            if(is_possible(arr,mid,k)){
+            if(possible(nums,mid) <=k){
                 high=mid;
+
             }
             else low=mid+1;
         }
-        
-        if(k> arr.length) return -1;
-        else return low;
-    }
-    public int splitArray(int[] nums, int k) {
-        return minTime(nums, k);
+        return high;
     }
 }
