@@ -1,24 +1,31 @@
-import java.util.*;
 
 class Solution {
+    public int value(char ch) {
+
+        if (ch == 'I') return 1;
+        if (ch == 'V') return 5;
+        if (ch == 'X') return 10;
+        if (ch == 'L') return 50;
+        if (ch == 'C') return 100;
+        if (ch == 'D') return 500;
+        return 1000;
+    }
     public int romanToInt(String s) {
-        Map<Character, Integer> map = Map.of(
-            'I', 1, 'V', 5, 'X', 10,
-            'L', 50, 'C', 100, 'D', 500, 'M', 1000
-        );
+       int sum=0;
+       for(int i=0;i<s.length();i++){
+        int current=value(s.charAt(i));
+        if(i< s.length()-1){
+            int next=value(s.charAt(i+1));
 
-        int result = 0;
-        for (int i = 0; i < s.length(); i++) {
-            int curr = map.get(s.charAt(i));
-            int next = (i + 1 < s.length()) ? map.get(s.charAt(i + 1)) : 0;
-
-            if (curr < next) {
-                result -= curr;
-            } else {
-                result += curr;
+            if(current<next){
+                sum-=current;
+            }
+            else {
+                sum+=current;
             }
         }
-
-        return result;
+        else sum+=current;
+       }
+       return sum;
     }
 }
